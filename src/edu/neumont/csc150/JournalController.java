@@ -1,6 +1,7 @@
 package edu.neumont.csc150;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class JournalController {
@@ -12,13 +13,14 @@ public class JournalController {
             int selection = ji.getUserInputAsInt(1,4);
             switch (selection) {
                 case 1 -> {
-                    createNew();
+                    //create new
+                    establishDate();
                 }
                 case 2 -> {
-                    searchForEnteredDate();
+                    //search by date
                 }
                 case 3 -> {
-                    //search by date
+                    //search by date range
                 }
                 case 4 -> {
                     return;
@@ -27,40 +29,27 @@ public class JournalController {
             }
         }
     }
-    public void createNew() throws IOException {
-        boolean useTodayDate = ji.establishDate();
-        LocalDate date = LocalDate.now();
-        String title = ji.getTitle();
-        String entryText = ji.getEntry();
-        writeToTextFile(title, date, entryText);
-    }
-    public void searchForEnteredDate() throws IOException {
-        String dateToSearch = ji.getDateToSearch();
-    }
 
-    public void writeToTextFile(String title, LocalDate d, String text) throws IOException {
-        PrintStream out = new PrintStream( new FileOutputStream(title+=".txt"));
-        try {
-            out.println(d+"\n");
-            out.println(text);
-        }finally{
-            //fileOut.flush();
-            out.close();
-        }
-    }
-    public static void readFromTextFile(String title) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(title+=".txt")));
-        String lines = "";
-        try {
-            while(in.ready()){
-                lines += in.readLine()+"\r\n";
-
+    public void establishDate() throws IOException {
+        LocalDate d;
+        ji.displayCurrentOrCustomDate();
+        int choice = ji.getUserInputAsInt(1,3);
+        switch(choice){
+            case 1: {
+                d = LocalDate.now();
             }
-        }finally {
-            in.close();
+            case 2: {
+                d = ji.getCustomDate();
+            }
+            case 3: {
+                return;
+            }
+            default: {
+                d = LocalDate.now();
+            }
         }
+        SimpleDateFormat fmt = new SimpleDateFormat("MM-dd-yyyy");
+        String dateString = fmt.format(d);
 
-        System.out.println(lines);
     }
-
 }
