@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 
 public class JournalInterface {
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public void displayMainMenu(){
         System.out.println("\n\nWhat would you like to do?\r\n" +
@@ -15,16 +15,13 @@ public class JournalInterface {
                 "\t3 - Search for Entries\r\n" +
                 "\t4 - Exit\r\n");
     }
-
     public void displayCurrentOrCustomDate(){
         System.out.println("\n\nWhat date would you like to establish?\r\n" +
                 "\t1 - Today\r\n" +
                 "\t2 - Custom\r\n" +
                 "\t3 - Back\r\n");
     }
-
     public LocalDate getCustomDate() throws IOException {
-        System.out.println("\nEnter custom date below");
         System.out.println("Month: ");
         int month = getUserInputAsInt(1,12);
         System.out.println("Day: ");
@@ -41,6 +38,19 @@ public class JournalInterface {
         int year = getUserInputAsInt(2000, 3000);
 
         return LocalDate.of(year, month, day);
+    }
+    public String getEntryText() throws IOException {
+        System.out.println("Begin your entry below - \r\n" +
+                "\tto be completed, make a final line that says EXIT, it will not be added to your journal.");
+        String entry ="";
+        while (true){
+            String textEntered = in.readLine();
+            if(!textEntered.equals("EXIT")){
+                entry+=textEntered + "\r\n";
+            }else{
+                return entry;
+            }
+        }
     }
 
     public int getUserInputAsInt(int min, int max) throws IOException {

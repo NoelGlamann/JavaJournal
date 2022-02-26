@@ -5,7 +5,10 @@ import java.io.IOException;
 public class Journal {
     public static void main(String[] args) throws IOException {
         JournalController jc = new JournalController();
-        jc.run();
+        boolean keepGoing = true;
+        while(keepGoing){
+            keepGoing = jc.run();
+        }
         System.out.println("Journal Saved");
     }
 }
